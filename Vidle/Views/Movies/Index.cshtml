@@ -7,6 +7,10 @@
 
 <h2>Movies</h2>
 
+@Html.ActionLink("New Movie", "New", "Movies", new {@class = "btn btn-primary"})
+
+<br /><br />
+
 @if (!Model.Any())
 {
     <p>Oooppps! No Movies Avaliable Now, Try Again Later....</p>
@@ -26,7 +30,7 @@ else
         {
             <tr>
                 <td>
-                    @Html.ActionLink(movie.Name, "Details", "Movies", new {id = movie.Id}, null )
+                    @Html.ActionLink(movie.Name, "Edit", "Movies", new {id = movie.Id}, null )
                 </td>
                 <td>
                     @movie.Genre.Name
