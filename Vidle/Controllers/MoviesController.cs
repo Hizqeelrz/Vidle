@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidle.Models;
+using Vidle.ViewModels;
 
 namespace Vidle.Controllers
 {
@@ -16,7 +17,20 @@ namespace Vidle.Controllers
             {
                 Name = "Sherk"
             };
-            return View(movie);
+
+            var customers = new List<Customer>
+            {
+                new Customer { Name = "Customer 1"},
+                new Customer { Name = "Customer 2"}
+            };
+
+            var viewModel = new RandomMovieViewModel
+            {
+                Movie = movie,
+                Customers = customers
+            };
+
+            return View(viewModel);
         }
     }
 }
