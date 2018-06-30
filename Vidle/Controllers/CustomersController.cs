@@ -26,7 +26,8 @@ namespace Vidle.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = _context.Customers.ToList();
+            // Eager loaded to load the related object which is MT in this case else its values is null
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
             return View(customers);
         }
 
