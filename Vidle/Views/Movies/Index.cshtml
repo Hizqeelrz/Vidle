@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Vidle.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+@if (!Model.Any())
+{
+    <p>Oooppps! No Movies Avaliable Now, Try Again Later....</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Movies Name</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+        @foreach (var movies in Model)
+        {
+            <tr>
+                <td>
+                    @movies.Name
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
