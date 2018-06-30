@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidle.Models;
+using Vidle.ViewModels;
 
 namespace Vidle.Controllers
 {
@@ -22,6 +23,22 @@ namespace Vidle.Controllers
         {
             _context.Dispose();
         }
+
+
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+
+            return View(viewModel);
+        }
+
+
+
 
         // GET: Customers
         public ActionResult Index()
