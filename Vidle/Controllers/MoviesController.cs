@@ -10,21 +10,36 @@ namespace Vidle.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDbContext _context;
 
-        public ActionResult Index()
+        public MoviesController()
         {
-            var movies = GetMovies();
-            return View(movies);
+            _context = new ApplicationDbContext();
         }
 
 
-        private IEnumerable<Movie> GetMovies()
+        //ApplicationDbContext is a disposable context so it need to be disposed properly
+        protected override void Dispose(bool disposing)
         {
-            return new List<Movie>
+            _context.Dispose();
+        }
+
+        public ActionResult Index()
+        {
+            var movies = _context.Movies.ToList();
+            return View(movies);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
             {
-                new Movie {Id = 1, Name = "The 12th Man"},
-                new Movie {Id = 2, Name = "Gladiators"}
-            };
+                return HttpNotFound();
+            }
+
+            return View();
         }
 
         // GET: Movies
