@@ -8,11 +8,14 @@ namespace Vidle.Models
 {
     public class Min18YearsIfAMember : ValidationAttribute
     {
+        //IsValid has 2 Overloads, With ValidationContext Overload it also give validation for other properties
+        // ObjectInstance give us the access to the containing class which is customer
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var customer = (Customer)validationContext.ObjectInstance;
 
-            if (customer.MembershipTypeId == 0 || customer.MembershipTypeId == 1)
+            if (customer.MembershipTypeId == MembershipType.Unkown || 
+                customer.MembershipTypeId == MembershipType.PayAsYouGo)
             {
                 return ValidationResult.Success;
             }
@@ -21,6 +24,8 @@ namespace Vidle.Models
             {
                 return new ValidationResult("Birthdate is required");
             }
+
+            // Value here mean Birthdate is Nullable datetimeas we created properties in our customer Model
 
             var age = DateTime.Now.Year - customer.Birthdate.Value.Year;
 

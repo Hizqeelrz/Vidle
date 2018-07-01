@@ -31,6 +31,7 @@ namespace Vidle.Controllers
 
             var viewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes = membershipTypes
             };
 
