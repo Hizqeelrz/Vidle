@@ -18,6 +18,11 @@ namespace Vidle.Models
 
         public MembershipType MembershipType { get; set; }
 
+
+        // We do not have any validation here then why we are getting validation message
+        //because it is implicit required here because its type is BYTE if it is
+        // nullable BYTE? than its optional
+
         [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }
 
