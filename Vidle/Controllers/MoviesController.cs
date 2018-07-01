@@ -72,6 +72,8 @@ namespace Vidle.Controllers
 
             var viewModel = new MovieFormViewModel
             {
+                // new Movie() is added here to update the id to 0 and no keep it null for the validation
+                Movie = new Movie(),
                 Genres = genre
             };
 
@@ -97,8 +99,21 @@ namespace Vidle.Controllers
             return View("MovieForm", viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel
+                {
+                    Movie = movie,
+                    Genres = _context.Genres.ToList()
+                };
+
+                return View("MovieForm", viewModel);
+            }
+
             if (movie.Id == 0)
             {
                 movie.DateAdded = DateTime.Now;
