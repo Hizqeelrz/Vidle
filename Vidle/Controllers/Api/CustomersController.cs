@@ -38,7 +38,7 @@ namespace Vidle.Controllers.Api
 
         // POST api/customers
         [HttpPost]
-        public Customer CreateCustomer(int id, Customer customer)
+        public Customer CreateCustomer(Customer customer)
         {
             if (!ModelState.IsValid)
             {
