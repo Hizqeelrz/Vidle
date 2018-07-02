@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AutoMapper;
+using Vidle.Dtos;
 using Vidle.Models;
 
 namespace Vidle.Controllers.Api
@@ -18,13 +20,13 @@ namespace Vidle.Controllers.Api
         }
 
         // GET api/customers
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-             return _context.Customers.ToList();
+             return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
         }
 
         // GET api/customers/1
-        public Customer GetCustomer(int id)
+        public CustomerDto GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -33,27 +35,37 @@ namespace Vidle.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return customer;
+            // As we are returing 1 single customer object here we use: Mapper
+
+
+            return Mapper.Map<Customer, CustomerDto>(customer);
         }
 
         // POST api/customers
         [HttpPost]
-        public Customer CreateCustomer(Customer customer)
+        public CustomerDto CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
+            var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
+
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            // as This custoemr object has an id so add this to the Dto and return to the Client
+
+            customerDto.Id = customer.Id;
+
+
+            return customerDto;
         }
 
         // PUT api/customers/1
         [HttpPut]
-        public void UpdateCustomer(int id, Customer customer)
+        public void UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
             {
@@ -67,10 +79,10 @@ namespace Vidle.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            customerInDb.Name = customer.Name;
-            customerInDb.Birthdate = customer.Birthdate;
-            customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
+            // passing here as second argument becuase the object is exist
+            // becuase the object is loaded in the context which will track changes
+
+            Mapper.Map(customerDto, customerInDb);
 
             _context.SaveChanges();
         }
