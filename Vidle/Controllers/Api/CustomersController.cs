@@ -53,7 +53,7 @@ namespace Vidle.Controllers.Api
 
         // PUT api/customers/1
         [HttpPut]
-        public Customer UpdateCustomer(int id, Customer customer)
+        public void UpdateCustomer(int id, Customer customer)
         {
             if (!ModelState.IsValid)
             {
@@ -68,18 +68,16 @@ namespace Vidle.Controllers.Api
             }
 
             customerInDb.Name = customer.Name;
-            customerInDb.MembershipType = customer.MembershipType;
             customerInDb.Birthdate = customer.Birthdate;
             customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
+            customerInDb.MembershipTypeId = customer.MembershipTypeId;
 
             _context.SaveChanges();
-
-            return customerInDb;
         }
 
         //DELETE api/customers/1
         [HttpDelete]
-        public Customer DeleteCustomer(int id)
+        public void DeleteCustomer(int id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -90,8 +88,6 @@ namespace Vidle.Controllers.Api
 
             _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
-
-            return customerInDb;
         }
     }
 }
