@@ -72,8 +72,6 @@ namespace Vidle.Controllers
 
             var viewModel = new MovieFormViewModel
             {
-                // new Movie() is added here to update the id to 0 and no keep it null for the validation
-                Movie = new Movie(),
                 Genres = genre
             };
 
@@ -90,9 +88,8 @@ namespace Vidle.Controllers
             }
 
 
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel(movie)
             {
-                Movie = movie,
                 Genres = _context.Genres.ToList()
             };
 
@@ -105,9 +102,9 @@ namespace Vidle.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new MovieFormViewModel
+                // movie is the object instance passed in the MovieFormViewModel in the constructor
+                var viewModel = new MovieFormViewModel(movie)
                 {
-                    Movie = movie,
                     Genres = _context.Genres.ToList()
                 };
 
