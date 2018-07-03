@@ -30,10 +30,15 @@ else
         {
             <tr>
                 <td>
-                    @Html.ActionLink(movie.Name, "Edit", "Movies", new {id = movie.Id}, null )
+                    @movie.Name
                 </td>
                 <td>
                     @movie.Genre.Name
+                </td>
+                <td class="form-group">
+                    @Html.ActionLink("Edit", "Edit", "Movies", new {id = movie.Id}, new {@class = "btn btn-default"})
+                    @Html.ActionLink("Detail", "Details", "Movies", new {id = movie.Id}, new {@class = "btn btn-info"})
+                    @*   @Html.ActionLink("Delete", "Delete", null, null, new{ @class = "btn btn-danger"}) *@
                 </td>
             </tr>
         }
