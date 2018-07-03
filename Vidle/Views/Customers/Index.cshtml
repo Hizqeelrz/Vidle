@@ -7,7 +7,7 @@
 
 <h2>Customers</h2>
 
-@Html.ActionLink("New Customer", "New", "Movies", null , new {@class = "btn btn-primary"})
+@Html.ActionLink("New Customer", "New", "Customers", null , new {@class = "btn btn-primary"})
 
 <br /><br />
 
@@ -18,7 +18,7 @@
 }
 else
 {
-    <table class="table table-bordered table-hover">
+    <table id="customers" class="table table-bordered table-hover">
         <thead>
         <tr>
             <th>Id</th>
@@ -38,7 +38,7 @@ else
                     <td class="form-group">
                         @Html.ActionLink("Edit", "Edit", "Customers", new {id = customers.Id}, new {@class = "btn btn-default"})
                         @Html.ActionLink("Detail", "Details", "Customers", new {id = customers.Id}, new {@class = "btn btn-info"})
-                        @Html.ActionLink("Delete", "Delete", null, null, new {@class = "btn btn-danger"})
+                        <button data-customers-id="@customers.Id" class="btn btn-danger js-delete">Delete</button>
                     </td>
                 </tr>
             }
@@ -46,3 +46,24 @@ else
     </table>
 }
 
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#customers .js-delete").on("click",
+                function () {
+                    var button = $(this);
+
+                    if (confirm("Are You Sure You want to delete this Customer?")) {
+                        $.ajax({
+                            url: "/api/customers/" + $(button).attr("data-customers-id"),
+                            method: "DELETE",
+                            success: function() {
+                                button.parents("tr").remove();
+                            }
+                    });
+                    };
+                });
+        })
+    </script>
+}
