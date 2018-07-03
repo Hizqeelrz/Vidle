@@ -14,8 +14,15 @@ namespace Vidle.App_Start
         {
             //CreateMap Take 2 parameters <T.source, T.Destination/target>
 
+            // Domain to Dto
+
             Mapper.CreateMap<Customer, CustomerDto>();
-            Mapper.CreateMap<CustomerDto, Customer>();
+            Mapper.CreateMap<Movie, MovieDto>();
+
+            // Dto to Domain
+
+            Mapper.CreateMap<CustomerDto, Customer>().ForMember(c => c.Id, opt => opt.Ignore());
+            Mapper.CreateMap<MovieDto, Movie>().ForMember(m => m.Id, opt => opt.Ignore());
         }
 
         // When we call this CreateMap method AutoMapper uses reflection to
