@@ -49,20 +49,25 @@ else
 @section scripts
 {
     <script>
-        $(document).ready(function() {
-            $("#customers .js-delete").on("click",
+        $(document).ready(function () {
+            // will only have one event handler for the customers table declare as filter as the second argument
+            // for the on method if the click is araised depend on the filter than the callback function will be called
+            $("#customers").on("click", ".js-delete",
                 function () {
                     var button = $(this);
 
-                    if (confirm("Are You Sure You want to delete this Customer?")) {
-                        $.ajax({
-                            url: "/api/customers/" + $(button).attr("data-customers-id"),
-                            method: "DELETE",
-                            success: function() {
-                                button.parents("tr").remove();
+                    bootbox.confirm("Are You Sure You Want to Delete This Customer?",
+                        function(result) { // takes a callback 
+                            if (result) { // if result if true mean not null or undefine
+                                $.ajax({
+                                    url: "/api/customers/" + $(button).attr("data-customers-id"),
+                                    method: "DELETE",
+                                    success: function() {
+                                        button.parents("tr").remove();
+                                    }
+                                });
                             }
-                    });
-                    };
+                        });
                 });
         })
     </script>
